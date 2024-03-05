@@ -10,8 +10,8 @@ function Clusters = DendroCut(Dendro, level, Multiplets)
     % Verification plot (if needed)
     f = figure;
     f.Position = [0 0 1000 400];
-    dendrogram(Dendro,m,"ColorThreshold",level,"Orientation",'top',"Labels",string(Id_clust));
-    ylabel("Recomputed dissimilarity (Ward' method)");
+    dendrogram(Dendro,m,"ColorThreshold",level,"Orientation",'top',"Labels",string(Agnes_clust));
+    ylabel("Recomputed dissimilarity");
     xlabel("Multiplets id");
     set(gca,"fontsize",15);
     axis tight;

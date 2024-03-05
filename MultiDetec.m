@@ -83,11 +83,12 @@ function [Multiplets,Dendro] = MultiDetec(WF,Toa,PDM,dtmax)
         end
 
         % DBSCAN
-        [Clust,Corpts] = dbscan(PDM,epsilon,para.minpts,"Distance","precomputed");
+        [Pre_clusters,Corpts] = dbscan(PDM,epsilon,para.minpts,"Distance","precomputed");
 
         fprintf("Done");
         fprintf('\n\n');
     end
+    
     %% ----- Border points suppression
     Pre_clusters(Pre_clusters<0) = 0;
     Pre_clusters(Corpts==0) = 0;
@@ -100,42 +101,30 @@ function [Multiplets,Dendro] = MultiDetec(WF,Toa,PDM,dtmax)
         end
     end
 
-    %% ----- Temporary results plot (pre-clusters)
-    % HDD.MULTI = Pre_clusters'; % Pre_clustersers in HDD
-    % % 
-    % f = figure;
-    % f.Position = [0 0 1000 400];
-    % set(gca,"fontsize",15);
-    % axis tight;
-    % hold on;
-    % plot(TDD.Time,TDD.PARA1,'-','Color',[0.9,0.9,0.9],'LineWidth',2);
-    % gscatter(HDD.Time(find(HDD.MULTI==0)),HDD.PARA1(find(HDD.MULTI==0)),HDD.MULTI(find(HDD.MULTI==0)),"k",".",4,"off");
-    % gscatter(HDD.Time(find(HDD.MULTI>0)),HDD.PARA1(find(HDD.MULTI>0)),HDD.MULTI(find(HDD.MULTI>0)),"w",".",9,"off");
-    % gscatter(HDD.Time(find(HDD.MULTI>0)),HDD.PARA1(find(HDD.MULTI>0)),HDD.MULTI(find(HDD.MULTI>0)),"",".",4);
-    % % title(strcat("Detected multiplets of ",Type," ",Materiau," ",Eprouvette,".",Numero));
-    % xlabel("Time (s)");
-    % ylabel("Load (kN)");
-
     %% ------ Assembly of multiple clustering
     fprintf("________CLUSTERING and DENDROGRAM________");
     fprintf('\n');
 
     Multiplets = MultiAssembly(WF,Pre_clusters,mean(epsilon),para);
-    HDD.MULTI = Multiplets';
-
-    f = figure;
-    f.Position = [0 0 1000 400];
-    set(gca,"fontsize",15);
-    axis tight;
-    hold on;
-    plot(TDD.Time,TDD.PARA1,'-','Color',[0.9,0.9,0.9],'LineWidth',2);
-    gscatter(HDD.Time(find(HDD.MULTI==0)),HDD.PARA1(find(HDD.MULTI==0)),HDD.MULTI(find(HDD.MULTI==0)),"k",".",4,"off");
-    gscatter(HDD.Time(find(HDD.MULTI>0)),HDD.PARA1(find(HDD.MULTI>0)),HDD.MULTI(find(HDD.MULTI>0)),"w",".",9,"off");
-    gscatter(HDD.Time(find(HDD.MULTI>0)),HDD.PARA1(find(HDD.MULTI>0)),HDD.MULTI(find(HDD.MULTI>0)),"",".",4);
-    title(strcat(string(length(unique(Multiplets))-1)," detected multiplets"));
-    xlabel("Time (s)");
-    ylabel("Load (kN)");
 
     %% ------ Dendrogram calculation and plot
+    
+    % Hierarchical clustering (Ward's method) of multiplets according 
+    % to their representative waveforms dissimilarities. 
+    % (Representative waveform of a multiplet is by default defined as 
+    % the median waveform of this multiplet)
+    
     Dendro = MultiDendro(WF,Multiplets,para);
+   
+    %% ------ Multiplets hierarchical clustering (optional)
+    % Note : from Dendro, one can extract clusters of multiplets by cutting
+    % the dendrogram links (other ways of clustering also possible).
+    
+    % /!\ Not tu use here, just for any complementary analysis (out of
+    % MultiDetec function)
+    
+    % ====== Parameter selected by user ======
+%     level = 1.9; % Dendrogram cutting threshold
+%     
+%     Clusters = DendroCut(Dendro, level, Multiplets);
 end
