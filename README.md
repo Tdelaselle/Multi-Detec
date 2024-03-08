@@ -35,10 +35,11 @@ Principal function :
 
 1. __MultiDetec()__ : identifies multiplets in an AE waveform dataset and establishes the dissimilarity structure between them (dendrogram).
 
-Multiplets analysis : 
+Multiplets or clusters of multiplets analysis : 
 
 2. __DendroCut()__ : plot colored dendrogram (pre-computed ; _Ward_' method) and calculate clusters of multiplets from it according to a user-selected level of dissimilarity.  
-3. __MultiCentroid()__ : calculate dissimilarities between all waveforms of a multiplet to determine its centroid and plot superposed waveforms.
+3. __MultiCentroid()__ : Determine the centroid iteratively by calculating cross-correlation maximum between each waveforms of a multiplet and the centroid steps ; then plot the resulting centroid.
+4. __MultiWFsuperposed()__ : align and plot all waveforms of a multiplet or cluster of multiplets ; also compute and plot the centroid. 
 
 Sub-functions of MultiDetec() : 
 
@@ -50,5 +51,6 @@ Sub-functions of MultiDetec() :
   
 1.3 __MultiPeriod()__ : _(optionnal)_ give a measure of the multiplets signals emission time period.
 
-1.4 __MultiAssembly()__ : assembles (or delete) pre-clusters, obtained by application of DBSCAB on partial dissimilarity matrices, into multiplets by cutting a dendrogram (_median_ linkage) at the mean of dissimilarity thresholds.
+1.4 __MultiAssembly()__ : assembles (or delete) pre-clusters, obtained by application of DBSCAN on partial dissimilarity matrices, into multiplets by cutting a dendrogram (_centroid_ linkage), obtained by hierarchical clustering of pre-clusters centroids. The mean of dissimilarity thresholds is used to automatically select the cutting level.
+  1.4.1 __MultiCentroid()__ : same as 3. but on pre_clusters (no plot of centroid). 
 
