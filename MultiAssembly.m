@@ -11,7 +11,6 @@ function Clusters = MultiAssembly(WF,Clust,epsilon,para)
 %                    representative is choosed, we select the first WF.
 %                    But can be changed if needed (rep variable).
     %% ---- Variables and cross-correlation parameters -------------------
-    rep = 1; % clusters representative determination
     if para.pretrig_cut == 1
         init = para.pretrig_length+1;
     else
@@ -24,15 +23,24 @@ function Clusters = MultiAssembly(WF,Clust,epsilon,para)
     m = length(Id_clust); % pre-clusters amount
     DM = zeros(m);
     
+    CTD = zeros(height(WF),m);
+    
+    %% -------- Pre-clusters centroids database --------------------------   
+   for i = 1:m
+      CTD(:,i) = MultiCentroid(WF,Clust,para,Id_clust(i),0); 
+   end
+    
     %% -------- Dissimilarity matrix of clusters representatives ---------
     fprintf("-------- Pre-clusters assembly ----------");
     fprintf('\n');
 
     for i = 1:m
-        Id_i = find(Id_clust(i)==Clust);
+%         Id_i = find(Id_clust(i)==Clust);
+%         [~, Id_i_max] = max(max(WF(init:limit,Id_i)));
         for j = (i+1):m
-            Id_j = find(Id_clust(j)==Clust);
-            [Corr, ~] = xcorr(WF(init:limit,Id_i(rep)),WF(init:limit,Id_j(rep)),'normalized');
+%             Id_j = find(Id_clust(j)==Clust);
+%             [~, Id_j_max] = max(max(WF(init:limit,Id_j)));
+            [Corr, ~] = xcorr(CTD(init:limit,i),CTD(init:limit,j),'normalized');
             DM(i,j) = abs(1-max(Corr)); % Dissimilarity measure in matrix
         end
     end
@@ -43,7 +51,7 @@ function Clusters = MultiAssembly(WF,Clust,epsilon,para)
     for i = 2:(size(DM,2)-1)
         DM_vec = [DM_vec, DM(i,(i+1):end)];
     end
-    Tree = linkage(DM_vec,"centroid"); % Possibilty to select other methods :
+    Tree = linkage(DM_vec,"median"); % Possibilty to select other methods :
     % single, complete, median, centroid, average. NOT Ward ! 
    
     % Verification plot (if needed)

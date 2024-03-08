@@ -1,7 +1,10 @@
-function Centroid = MultiCentroid(WF,Multiplets,para,multi_selected)
-    %/!\ According to the multiplet (or cluster) size, the calculation can be
-    %relatively long ; e.g. several minutes for more than 1k waveforms (personnal standard
-    % computer)
+function Centroid = MultiCentroid(WF,Multiplets,para,multi_selected,show)
+    %% --------- Entries definition
+    % WF : all waveforms of the AE dataset
+    % Multiplets : list of multiplets numbers for each waveforms
+    % para : structure of variables for cross-correlation 
+    % multi_seleted : integer of the considered multiplet number
+    % plotting : boolean for plotting centroid (1) or not (0)
 
     %% --------- Variables and cross-correlation parameters 
     if para.pretrig_cut == 1
@@ -13,59 +16,43 @@ function Centroid = MultiCentroid(WF,Multiplets,para,multi_selected)
     
     Id_multi = find(Multiplets == multi_selected);
     n = length(Id_multi);
-    h = height(WF);
-    
-    Dt_mat = zeros(n,n);
-    Centroid = zeros(h,1);
   
     WF = WF(:,Id_multi);
+    Centroid = WF(:,1);
     
     Support = 1:1:height(WF);
     
-    %% --------- Delay matrix calculation (cross-correlation)
+    %% -------- Centroid determination and plotting   
     % Waveforms suffer from translations (delays) that can be estimated by
-    % finding the maximum of the cross-correlation between each couple of
-    % waveforms within a multiplet. 
+    % finding the maximum of the cross-correlation between waveforms within
+    % a multiplet. 
     
-    % Calculation : Matrix of each delay between waveforms
-    for i = 1:n
-        for j = (i+1):n
-            [corr, t] = xcorr(WF(init:limit,i),WF(init:limit,j),'normalized');
-            [~, x] = max(corr);
-            Dt_mat(i,j) = t(x);
-        end
-    end   
-    Dt_mat = Dt_mat+Dt_mat';
-
-    % Finding multiplet reference to align all waveforms on it
-    [~, col] = find(Dt_mat<0);
-    id = histcounts(col,unique(col));
-    id_ref = find(id==min(id));
-    
-    %% -------- Centroid determination and waveforms plotting   
-    % Plotting all waveforms superposed with the multiplet centroid
-    f = figure;
-    f.Position = [0 0 800 350];
-    hold on;
-    title("Multiplet waveforms superposition");
-    subtitle("increasing emission time : blue towards red (green : centroid)")
-    for i = 1:n
-        t = Dt_mat(id_ref,i);
+    % Calculation : Centroid is iteratively calculated by finding delays
+    % between each waveforms and the centroid steps.
+    for i = 2:n
         Signal = WF(:,i);
-        if t>=0
-            Centroid(1:(end-t)) = Centroid(1:(end-t))+Signal((t+1):end);
+        [corr, t] = xcorr(Centroid(init:limit),Signal(init:limit),'normalized');
+        [~, x] = max(corr);
+        dt = -t(x);
+        if dt>0
+            Centroid(1:(end-dt)) = Centroid(1:(end-dt))+Signal((dt+1):end);
         else
-            t = abs(t);
-            Centroid((t+1):end) = Centroid((t+1):end)+Signal(1:(end-t));
+            dt = abs(dt);
+            Centroid((dt+1):end) = Centroid((dt+1):end)+Signal(1:(end-dt));
         end
-        plot(Support-t,Signal,"linewidth",1,"Color",[9*i/(10*n) 2*i/(10*n) 1-8*i/(10*n)],'HandleVisibility','off');
+        Centroid = Centroid./2;
     end
-    Centroid = Centroid./n;
-    plot(Support,Centroid,'Color',[0, 1, 0, 1],'Displayname',"Centroid","linewidth",2);
-    ylabel("Amplitude (V)");
-    axis tight;
-    xlim([0 limit]);
-    legend();
-    set(gca,"fontsize",15);
-
+    
+    % Plotting the centroid
+    if show == 1
+        f = figure; 
+        hold on;
+        f.Position = [0 0 800 350];
+        plot(Support,Centroid,'Color',[0, 0.7, 0],'Displayname',"Centroid","linewidth",2);
+        ylabel("Amplitude (V)");
+        axis tight;
+        xlim([0 limit]);
+        legend();
+        set(gca,"fontsize",15);
+    end
 end
