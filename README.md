@@ -29,7 +29,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 No installation is needed ; just download the codes and their dependencies (functions).
 
 ## Content description
-_(See graphic for more details of the method architecture)_
+_(See graphic for more details of the [Method architecture.pdf](https://github.com/Tdelaselle/Multi-Detec/files/14540092/Method.architecture.pdf))_
 
 Principal function :
 
@@ -38,7 +38,7 @@ Principal function :
 Multiplets or clusters of multiplets analysis : 
 
 2. __DendroCut()__ : plot colored dendrogram (pre-computed ; _Ward_' method) and calculate clusters of multiplets from it according to a user-selected level of dissimilarity.  
-3. __MultiCentroid()__ : Determine the centroid iteratively by calculating cross-correlation maximum between each waveforms of a multiplet and the centroid steps ; then plot the resulting centroid.
+3. __MultiCentroid()__ : Determine the centroid iteratively by calculating cross-correlation maximum between each waveforms of a multiplet and the centroid steps ; then plot the resulting                             centroid.
 4. __MultiWFsuperposed()__ : align and plot all waveforms of a multiplet or cluster of multiplets ; also compute and plot the centroid. 
 
 Sub-functions of MultiDetec() : 
@@ -47,10 +47,11 @@ Sub-functions of MultiDetec() :
 
 1.2 __Threshold()__ : estimate automatically a dissimilarity threshold from the distribution of partial dissimilarity matrix coefficients. 
 
-  1.2.1 __Distribution()__ : compute distribution of some matrix coefficients from its diagonals.
+ ->  1.2.1 __Distribution()__ : compute distribution of some matrix coefficients from its diagonals.
   
 1.3 __MultiPeriod()__ : _(optionnal)_ give a measure of the multiplets signals emission time period.
 
-1.4 __MultiAssembly()__ : assembles (or delete) pre-clusters, obtained by application of DBSCAN on partial dissimilarity matrices, into multiplets by cutting a dendrogram (_centroid_ linkage), obtained by hierarchical clustering of pre-clusters centroids. The mean of dissimilarity thresholds is used to automatically select the cutting level.
-  1.4.1 __MultiCentroid()__ : same as 3. but on pre_clusters (no plot of centroid). 
+1.4 __MultiAssembly()__ : assembles (or delete) pre-clusters, obtained by application of DBSCAN on partial dissimilarity matrices, into multiplets by cutting a dendrogram (_centroid_                                 linkage), obtained by hierarchical clustering of pre-clusters centroids. The mean of dissimilarity thresholds is used to automatically select the cutting level.
+
+ ->  1.4.1 __MultiCentroid()__ : same as 3. but on pre_clusters (no plot of centroid). 
 
