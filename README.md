@@ -51,7 +51,7 @@ Multiplets or clusters of multiplets analysis :
 
 2. __DendroCut()__ : plot colored dendrogram (pre-computed ; _Ward_' method) and calculate clusters of multiplets from it according to a user-selected level of dissimilarity.  
 3. __MultiCentroid()__ : Determine the centroid iteratively by calculating cross-correlation maximum between each waveforms of a multiplet and the centroid steps ; then plot the resulting                             centroid.
-4. __MultiWFsuperposed()__ : align and plot all waveforms of a multiplet or cluster of multiplets ; also compute and plot the centroid. 
+4. __MultiWFsuperposed()__ : align and plot all waveforms of a multiplet or cluster of multiplets (also compute and plot the centroid). /!\ could be long to compute 
 
 Sub-functions of MultiDetec() : 
 
