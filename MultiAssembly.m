@@ -51,7 +51,7 @@ function Clusters = MultiAssembly(WF,Clust,epsilon,para)
     for i = 2:(size(DM,2)-1)
         DM_vec = [DM_vec, DM(i,(i+1):end)];
     end
-    Tree = linkage(DM_vec,"median"); % Possibilty to select other methods :
+    Tree = linkage(DM_vec,"average"); % Possibilty to select other methods :
     % single, complete, median, centroid, average. NOT Ward ! 
    
     % Verification plot (if needed)

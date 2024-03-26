@@ -1,6 +1,6 @@
 function Dendro = MultiDendro(WF,Clusters,para)
     %% ---- Variables and cross-correlation parameters -------------------
-    rep = 1; % clusters representative determination
+    rep = fix(para.minpts/2); % clusters representative determination
     if para.pretrig_cut == 1
         init = para.pretrig_length+1;
     else

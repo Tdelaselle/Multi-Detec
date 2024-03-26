@@ -1,20 +1,27 @@
 function [Multiplets,Dendro] = MultiDetec(WF,Toa,PDM,dtmax) 
-    %% ---------- Parameters -----------
+%% ---------- About ----------------   
+
+% /!\ if no PDM is provided : 
+% run [Multiplets,Dendro] = MultiDetec(WF,Toa,[],dtmax);
+
+
+%% ---------- Parameters -----------
     fprintf('\n');
     fprintf("        °=====  MULTI-DETEC  =====°      ");
     fprintf('\n\n');
 
+    %""" Cross-correlation parameters """
     para.pretrig_cut = 1; % Keep (0) or not (1) the pretrigger during calculation of dissimilarity between WF
     para.pretrig_length = 100; % Size of pretrigger in pts
     para.window = 450; % Size of the cross-correlation window
 
-    %""" Infra-parameters """ 
+    %""" super-user parameters """ 
     % /!\ ONLY FOR SUPER-USERS
     para.minsize = 40; 
-    para.d = 0.15;
+    para.d = 0.8;    
+    para.minpts = 10;
     para.mat_size = 10000;
     para.degree = 50; % factor for selecting number of diagonals in Threshold()
-    para.minpts = 20;
 
     %% -------- Sub-functions ---------
     addpath('functions'); 
@@ -27,7 +34,7 @@ function [Multiplets,Dendro] = MultiDetec(WF,Toa,PDM,dtmax)
     k_PDM = fix(n/para.mat_size)+1;
     Pre_clusters = zeros(1,n);
 
-    if PDM == [] 
+    if isempty(PDM) 
         for k = 1:k_PDM
             fprintf("-------- Calculation of PDM %d/%d ---------",k,k_PDM);
             fprintf('\n');
@@ -64,8 +71,8 @@ function [Multiplets,Dendro] = MultiDetec(WF,Toa,PDM,dtmax)
             fprintf('\n\n');
         end
     else 
-        fprintf("-------- Calculation of PDM %d/%d ---------",k,k_PDM);
-        fprintf('\n');
+%         fprintf("-------- Calculation of PDM %d/%d ---------",k,k_PDM);
+%         fprintf('\n');
         
         epsilon = Threshold(PDM,para.mat_size/para.degree);
 
