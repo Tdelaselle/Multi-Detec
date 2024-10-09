@@ -125,4 +125,9 @@ https://doi.org/10.1016/j.ymssp.2024.111149.
 
 For more information about physical sources of multiplets : 
 
-[2] de la Selle, Théotime and Réthoré, Julien and Weiss, Jerome and Lachambre, J. and Deschanel, Stéphanie, Early Detection and Characterization of Fatigue Crack Growth Fromacoustic Emission Repeaters and Image Correlation. Available at SSRN: https://ssrn.com/abstract=4758696 or http://dx.doi.org/10.2139/ssrn.4758696
+[2] Théotime de la Selle, Julien Réthoré, Jérôme Weiss, Joël Lachambre, Stéphanie Deschanel,
+Signatures of fatigue crack growth from acoustic emission repeaters,
+Engineering Fracture Mechanics,
+Volume 309,
+2024,
+https://doi.org/10.1016/j.engfracmech.2024.110388.
