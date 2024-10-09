@@ -11,7 +11,7 @@ See publications on this topic for more details [1] and [2].
 
 ## About
 
-This package was written and documented by Théotime de la Selle.
+This package was created and documented by Théotime de la Selle.
 Any contributions are very welcomed.
 
 This work was supported by the french ANR project _e-Warnings_ (ANR-19-CE42-001).
