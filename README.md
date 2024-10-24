@@ -123,7 +123,7 @@ Volume 211,
 2024,
 https://doi.org/10.1016/j.ymssp.2024.111149.
 
-For more information about physical sources of multiplets : 
+For more information about acoustic multiplets physical sources in fatigue : 
 
 [2] Théotime de la Selle, Julien Réthoré, Jérôme Weiss, Joël Lachambre, Stéphanie Deschanel,
 Signatures of fatigue crack growth from acoustic emission repeaters,
