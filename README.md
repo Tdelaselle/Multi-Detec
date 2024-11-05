@@ -4,10 +4,11 @@
 
 _Methods for the automated detection of acoustic multiplets and their hierarchical classification according to the similarity of their emission mechanisms_
 
+See publications on this topic for more details about algorithmic methods [1] and physical background [2].
+
 
 __Note__ : originally, this method has been developped to study acoustic multiplets from fatigue of materials. However, as general AE method, acoustic multiplets from other fields can also be detected.
 
-See publications on this topic for more details [1] and [2].
 
 ## About
 
@@ -114,6 +115,8 @@ _(parameters for ajusting the dissimilarity metric based on cross-correlation fu
 
 ## How to use ? 
 
+
+
 ## Bibliography
 
 [1] Théotime de la Selle, Jérome Weiss, Stéphanie Deschanel,
@@ -131,3 +134,5 @@ Engineering Fracture Mechanics,
 Volume 309,
 2024,
 https://doi.org/10.1016/j.engfracmech.2024.110388.
+
+If you communicate on work using Multi-Detec codes, please cite this GitHub repository and one of these publications.
